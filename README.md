@@ -24,3 +24,5 @@ For this project I used the [Cocktail Database API](https://www.thecocktaildb.co
 The app is mostly written in JavaScript with AJAX calls using [jQuery](https://jquery.com/).
 
 As far as the front-end side of things, I incorporated the [Bootstap](https://getbootstrap.com/) library.
+
+The bartender logo was downloaded from [Vecteezy.com](https://www.vecteezy.com/free-vector/delivery) and made smaller for fast loading.

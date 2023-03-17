@@ -43,7 +43,7 @@ $("#resultsCont").append(leftResultCol);
 let rightResultCol = $("<div id='rightResultCol' class='bg-light border rounded-3 d-grid gap-2'></div>");
 $("#resultsCont").append(rightResultCol);
 
-let attrib = $("<p class='fs-8 text-secondary'>API Credits: www.thecocktaildb.com/api.php<br>Vector Image Credits: www.vecteezy.com #12219119</p>");
+let attrib = $("<p class='fs-8 text-secondary'>API Credits: www.thecocktaildb.com/api.php<br>Vector Image Credits: www.vecteezy.com</p>");
 $("#mainCont").append(attrib);
 
 initResults();
