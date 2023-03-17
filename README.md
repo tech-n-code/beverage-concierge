@@ -17,7 +17,7 @@ Overall what we’re looking for from you is an application that accomplishes th
 + POLISH: Your application should look clean and finished.
 + DEPLOY: Deploy to Github Pages or Surge
 
-### Developer's Notes
+### Developer's Notes:
 
 For this project I used the [Cocktail Database API](https://www.thecocktaildb.com/api.php) to allow users to search for a drink, display a list of results, and click once more for mixing instructions.
 
