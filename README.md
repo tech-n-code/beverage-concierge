@@ -10,12 +10,12 @@ You will apply the lessons learned from previous weeks: JavaScript, HTML, CSS, D
 
 Overall what we’re looking for from you is an application that accomplishes the minimum requirements below, and looks nicely styled and polished. Do not overcomplicate by adding more features than you can complete in a single day. You need to give yourself equal time to style your application so it looks good.
 
-..* PROPOSAL: Approval of proposed project.
-..* INTERACTION: Must have at least one event listener.
-..* AJAX: Must have at least one AJAX call to an API.
-..* DOM: Must manipulate the DOM based on a user’s interaction with your app.
-..* POLISH: Your application should look clean and finished.
-..* DEPLOY: Deploy to Github Pages or Surge
++ PROPOSAL: Approval of proposed project.
++ INTERACTION: Must have at least one event listener.
++ AJAX: Must have at least one AJAX call to an API.
++ DOM: Must manipulate the DOM based on a user’s interaction with your app.
++ POLISH: Your application should look clean and finished.
++ DEPLOY: Deploy to Github Pages or Surge
 
 ### Developer's Notes
 
