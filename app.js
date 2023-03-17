@@ -12,7 +12,8 @@ $("#topHeader").append(topHeaderH2);
 let topHeaderCont = $("<div id='topHeaderCont' class='container-fluid d-grid gap-3 align-items-center' style='grid-template-columns: 1fr 2fr;'></div>");
 $("#topHeader").append(topHeaderCont);
 
-let leftHeaderCol = $(`<div id='leftHeaderCol' class='bg-green fst-italic'>Search for your favorite one</div>`);
+let leftHeaderCol = $(`<img src="bartender.jpg" width="100px" class="mx-auto d-block"></img>`);
+
 $("#topHeaderCont").append(leftHeaderCol);
 
 let rightHeaderCol = $("<div id='rightHeaderCol' class='d-grid gap-2 d-md-flex justify-content-md-end'></div>");
@@ -41,6 +42,9 @@ $("#resultsCont").append(leftResultCol);
 
 let rightResultCol = $("<div id='rightResultCol' class='bg-light border rounded-3 d-grid gap-2'></div>");
 $("#resultsCont").append(rightResultCol);
+
+let attrib = $("<p class='fs-8 text-secondary'>API Credits: www.thecocktaildb.com/api.php<br>Vector Image Credits: www.vecteezy.com #12219119</p>");
+$("#mainCont").append(attrib);
 
 initResults();
 
