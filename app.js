@@ -1,70 +1,64 @@
-console.log("Linked!");
+let $mainCont = $("<div id='mainCont' class='container text-center'></div>");
+$("body").append($mainCont);
 
-let mainCont = $("<div id='mainCont' class='container text-center'></div>");
-$("body").append(mainCont);
+let $topHeader = $("<header id='topHeader' class='py-3 mb-3 border-bottom'></header>");
+$mainCont.append($topHeader);
 
-let topHeader = $("<header id='topHeader' class='py-3 mb-3 border-bottom'></header>");
-$("#mainCont").append(topHeader);
+let $topHeaderH2 = $("<h2 class='py-2 border' style='background-color: var(--bs-warning-border-subtle); --bs-border-color: var(--bs-warning-border-subtle); color: var(--bs-warning-text);'>Beverage Concierge</h2>");
+$topHeader.append($topHeaderH2);
 
-let topHeaderH2 = $("<h2 class='px-3 py-2 rounded-2 border' style='background-color: var(--bs-warning-border-subtle); --bs-border-color: var(--bs-warning-border-subtle); color: var(--bs-warning-text);'>Beverage Concierge</h2>");
-$("#topHeader").append(topHeaderH2);
+let $topHeaderCont = $("<div id='topHeaderCont' class='container-fluid d-grid gap-3 align-items-center' style='grid-template-columns: 1fr 2fr;'></div>");
+$topHeader.append($topHeaderCont);
 
-let topHeaderCont = $("<div id='topHeaderCont' class='container-fluid d-grid gap-3 align-items-center' style='grid-template-columns: 1fr 2fr;'></div>");
-$("#topHeader").append(topHeaderCont);
+let $leftHeaderCol = $("<img src='bartender.jpg' width='100px' class='mx-auto d-block'></img>");
+$topHeaderCont.append($leftHeaderCol);
 
-let leftHeaderCol = $(`<img src="bartender.jpg" width="100px" class="mx-auto d-block"></img>`);
+let $rightHeaderCol = $("<div id='rightHeaderCol' class='d-grid gap-2 d-md-flex justify-content-md-end'></div>");
+$topHeaderCont.append($rightHeaderCol);
 
-$("#topHeaderCont").append(leftHeaderCol);
+let $form = $("<form class='w-100 me-3' role='search'>");
+$rightHeaderCol.append($form);
 
-let rightHeaderCol = $("<div id='rightHeaderCol' class='d-grid gap-2 d-md-flex justify-content-md-end'></div>");
-$("#topHeaderCont").append(rightHeaderCol);
+let $searchField = $("<input id='search' type='search'class='form-control' placeholder='Search...' aria-label='Search'>");
+$form.append($searchField);
 
-let form = $("<form class='w-100 me-3' role='search'>");
-$("#rightHeaderCol").append(form);
+let $submitBtn = $("<button id='submit' class='btn btn-primary' type='button'>Search</button>");
+$rightHeaderCol.append($submitBtn);
 
-let searchField = $("<input id='search' type='search'class='form-control' placeholder='Search...' aria-label='Search'>");
-$("form").append(searchField);
+let $resetBtn = $("<button id='reset' class='btn btn-primary btn-danger' type='button'>Reset</button>");
+$rightHeaderCol.append($resetBtn);
 
-let submitBtn = $("<button id='submit' class='btn btn-primary' type='button'>Search</button>");
-$("#rightHeaderCol").append(submitBtn);
+let $results = $("<div id='results' class='container-fluid pb-3'></div>");
+$mainCont.append($results);
 
-let resetBtn = $("<button id='reset' class='btn btn-primary btn-danger' type='button'>Reset</button>");
-$("#rightHeaderCol").append(resetBtn);
+let $resultsCont = $("<div id='resultsCont' class='d-grid gap-3' style='grid-template-columns: 1fr 2fr;'></div>");
+$results.append($resultsCont);
 
-let results = $("<div id='results' class='container-fluid pb-3'></div>");
-$("#mainCont").append(results);
+let $leftResultCol = $("<div id='leftResultCol' class='d-grid gap-2' style='align-content: start;'></div>");
+$resultsCont.append($leftResultCol);
 
-let resultsCont = $("<div id='resultsCont' class='d-grid gap-3' style='grid-template-columns: 1fr 2fr;'></div>");
-$("#results").append(resultsCont);
+let $rightResultCol = $("<div id='rightResultCol' class='bg-light border rounded d-grid gap-2'></div>");
+$resultsCont.append($rightResultCol);
 
-let leftResultCol = $("<div id='leftResultCol' class='d-grid gap-2'></div>");
-$("#resultsCont").append(leftResultCol);
-
-let rightResultCol = $("<div id='rightResultCol' class='bg-light border rounded-3 d-grid gap-2'></div>");
-$("#resultsCont").append(rightResultCol);
-
-let attrib = $("<p class='fs-8 text-secondary'>API: www.thecocktaildb.com/api.php<br>Logo: www.vecteezy.com</p>");
-$("#mainCont").append(attrib);
+let $attribution = $("<p class='text-secondary' style='font-size: 10px;'>API: www.thecocktaildb.com/api.php<br>Logo: www.vecteezy.com</p>");
+$mainCont.append($attribution);
 
 initResults();
 
 function initResults() {
-    for (i = 0; i < 10; i++) {
-        let blankRow = $("<span> </span>");
-        $("#rightResultCol").append(blankRow);
-    }
+    $("#rightResultCol").html("<span> </span>".repeat(10));
 }
 
 $(document).ready(function() {
     function searchAPI() {
-        let searchString = $("#search").val();
-        if (searchString.length === 0) {
+        let $searchString = $("#search").val();
+        if ($searchString.length === 0) {
             $("#leftResultCol").empty();
             $("#rightResultCol").empty();
             initResults();
             $("span:first-child").addClass("text-muted").text("Ops! Forgot to enter your search.");
         } else {
-            $.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + searchString, function (data) {
+            $.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + $searchString, function (data) {
             console.log(data);
             if (!data.drinks) {
                 $("#leftResultCol").empty();
@@ -76,24 +70,24 @@ $(document).ready(function() {
                 $("#rightResultCol").empty();
                 $.each(data.drinks,  function (i, drink) {
                     let image = drink.strDrinkThumb;  //it may help pre-load thumbnails
-                    let resultBtn = $(`<button id="${drink.idDrink}" class="btn btn-success" type="button">${drink.strDrink}</button>`);
-                    $("#leftResultCol").append(resultBtn).on("click", `#${drink.idDrink}`, function(event) {
+                    let $resultBtn = $(`<button id="${drink.idDrink}" class="btn btn-success" type="button">${drink.strDrink}</button>`);
+                    $("#leftResultCol").append($resultBtn).on("click", `#${drink.idDrink}`, function(event) {
                         $("#rightResultCol").empty();
-                        let card = $("<span>");
-                        $(`<h2 class="py-1">${drink.strDrink}</h2>`).appendTo(card);
-                        $(`<img src="${image}" alt="${drink.strDrink}" width="200px" class="shadow"></img>`).appendTo(card);
-                        $(`<h4 class="py-1">Mixing Instructions:</h4>`).appendTo(card);
-                        $(`<p class="px-3">${drink.strInstructions}</p>`).appendTo(card);
-                        $("<h4>Ingredients:</h4>").appendTo(card);
+                        let $card = $("<span>");
+                        $(`<h2 class="py-1">${drink.strDrink}</h2>`).appendTo($card);
+                        $(`<img src="${image}" alt="${drink.strDrink}" width="200px" class="rounded shadow"></img>`).appendTo($card);
+                        $(`<h4 class="py-1">Mixing Instructions:</h4>`).appendTo($card);
+                        $(`<p class="px-3">${drink.strInstructions}</p>`).appendTo($card);
+                        $("<h4>Ingredients:</h4>").appendTo($card);
                         for (let i = 1; i <= 15; i++) {
                             let ingredient = drink["strIngredient" + i];
                             let measure = drink["strMeasure" + 1];
                             if (ingredient && measure) {
-                                $(`<p>${measure} of ${ingredient}</p>`).appendTo(card);
+                                $(`<p>${measure} of ${ingredient}</p>`).appendTo($card);
                             }
                         }
                         $("html, body").scrollTop(0);
-                        $("#rightResultCol").append(card);
+                        $("#rightResultCol").append($card);
                     });
                 });
             }
@@ -104,7 +98,7 @@ $(document).ready(function() {
     $("#reset").on("click", function(event) {
         $("#leftResultCol").empty();
         $("#rightResultCol").empty();
-        searchField.val("");
+        $searchField.val("");
         initResults();
     });
     $("#search").on("keydown", function(event) {  //triggers search on `enter`
