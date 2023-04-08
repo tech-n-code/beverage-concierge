@@ -28,7 +28,7 @@ $rightHeaderCol.append($submitBtn);
 let $resetBtn = $("<button id='reset' class='btn btn-primary btn-danger' type='button'>Reset</button>");
 $rightHeaderCol.append($resetBtn);
 
-let $results = $("<div id='results' class='container-fluid pb-3'></div>");
+let $results = $("<div id='results' class='container-fluid pb-2'></div>");
 $mainCont.append($results);
 
 let $resultsCont = $("<div id='resultsCont' class='d-grid gap-3' style='grid-template-columns: 1fr 2fr;'></div>");
@@ -88,20 +88,21 @@ $(document).ready(function() {
         let searchStr = $searchField.val();
         if (searchStr.length === 0) {
             initResults();
-            $results.append("<div id='noSearchStr' class='bg-light border rounded d-grid gap-2'>Ops! Forgot to enter your search</div>");
+            $results.append("<div id='noSearchStr' class='bg-light border rounded'>Ops! Forgot to enter your search</div>");
         } else {
             $.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + searchStr, function (data) {
             console.log(data);
             if (!data.drinks) {
                 initResults();
-                $results.append("<div id='noResultsMsg' class='bg-light border rounded d-grid gap-2'>No results found.</div>");
+                $results.append("<div id='noResultsMsg' class='bg-light border rounded'>No results found.</div>");
             } else {
                 initResults();
+                $rightResultCol.addClass("bg-light border rounded");
                 $.each(data.drinks,  function (i, drink) {
                     let image = drink.strDrinkThumb;  //it may help pre-load thumbnails
                     let $resultBtn = $(`<button id="${drink.idDrink}" class="btn btn-success" type="button">${drink.strDrink}</button>`);
                     $leftResultCol.append($resultBtn).on("click", `#${drink.idDrink}`, function(event) {
-                        $rightResultCol.empty().addClass("bg-light border rounded");
+                        $rightResultCol.empty();
                         let $card = $("<span>");
                         $(`<h2 class="py-1">${drink.strDrink}</h2>`).appendTo($card);
                         $(`<img src="${image}" alt="${drink.strDrink}" width="200px" class="rounded shadow"></img>`).appendTo($card);
@@ -119,6 +120,7 @@ $(document).ready(function() {
                         $rightResultCol.append($card);
                     });
                 });
+                $rightResultCol.append("<p class='text-secondary p-3'>Choose beverage to display instructions.</p>");
             }
             });
         }
