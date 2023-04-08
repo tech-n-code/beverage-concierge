@@ -19,7 +19,7 @@ $topHeaderCont.append($rightHeaderCol);
 let $form = $("<form class='w-100 me-3' role='search'>");
 $rightHeaderCol.append($form);
 
-let $searchField = $("<input id='search' type='search'class='form-control' placeholder='Search...' aria-label='Search'>");
+let $searchField = $("<input id='searchField' type='search'class='form-control' placeholder='Search...' aria-label='Search'>");
 $form.append($searchField);
 
 let $submitBtn = $("<button id='submit' class='btn btn-primary' type='button'>Search</button>");
@@ -40,39 +40,68 @@ $resultsCont.append($leftResultCol);
 let $rightResultCol = $("<div id='rightResultCol' class='bg-light border rounded d-grid gap-2'></div>");
 $resultsCont.append($rightResultCol);
 
-let $attribution = $("<p class='text-secondary' style='font-size: 10px;'>API: www.thecocktaildb.com/api.php<br>Logo: www.vecteezy.com</p>");
+let $attribution = $("<p class='text-secondary' style='font-size: 10px;'>By Will Franceschini<br>A Galvanize bootcamp project<br>API credits: www.thecocktaildb.com/api.php<br>Logo credits: www.vecteezy.com</p>");
 $mainCont.append($attribution);
+
+let gitHubDiv = document.createElement("div");
+let gitHubLogo = document.createElement("img");
+gitHubLogo.src = "./github-mark.png";
+gitHubLogo.style.display = "block";
+gitHubLogo.style.width = "2rem";
+gitHubLogo.style.margin = "0.5rem auto";
+gitHubDiv.appendChild(gitHubLogo);
+document.body.append(gitHubDiv);
+
+gitHubLogo.addEventListener("click", function() {
+    window.open("https://github.com/tech-n-code", "_blank");
+});
+gitHubLogo.addEventListener("mouseover", function () {
+    gitHubLogo.style.cursor = "pointer";
+});
+
+let linkedInDiv = document.createElement("div");
+let linkedInLogo = document.createElement("img");
+linkedInLogo.src = "https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat&logo=Linkedin&logoColor=white";
+linkedInLogo.style.display = "block";
+linkedInLogo.style.margin = "0.5rem auto";
+linkedInDiv.appendChild(linkedInLogo);
+document.body.append(linkedInDiv);
+
+linkedInLogo.addEventListener("click", function() {
+    window.open("https://www.linkedin.com/in/will-franceschini/", "_blank");
+});
+linkedInLogo.addEventListener("mouseover", function () {
+    linkedInLogo.style.cursor = "pointer";
+});
 
 initResults();
 
 function initResults() {
-    $("#rightResultCol").html("<span> </span>".repeat(10));
+    $leftResultCol.empty();
+    $rightResultCol.empty().removeClass("bg-light border rounded");
+    $("#noResultsMsg").remove();
+    $("#noSearchStr").remove();
 }
 
 $(document).ready(function() {
     function searchAPI() {
-        let $searchString = $("#search").val();
-        if ($searchString.length === 0) {
-            $("#leftResultCol").empty();
-            $("#rightResultCol").empty();
+        let searchStr = $searchField.val();
+        if (searchStr.length === 0) {
             initResults();
-            $("span:first-child").addClass("text-muted").text("Ops! Forgot to enter your search.");
+            $results.append("<div id='noSearchStr' class='bg-light border rounded d-grid gap-2'>Ops! Forgot to enter your search</div>");
         } else {
-            $.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + $searchString, function (data) {
+            $.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + searchStr, function (data) {
             console.log(data);
             if (!data.drinks) {
-                $("#leftResultCol").empty();
-                $("#rightResultCol").empty();
                 initResults();
-                $("span:first-child").addClass("text-muted").text("No results found.");
+                $results.append("<div id='noResultsMsg' class='bg-light border rounded d-grid gap-2'>No results found.</div>");
             } else {
-                $("#leftResultCol").empty();
-                $("#rightResultCol").empty();
+                initResults();
                 $.each(data.drinks,  function (i, drink) {
                     let image = drink.strDrinkThumb;  //it may help pre-load thumbnails
                     let $resultBtn = $(`<button id="${drink.idDrink}" class="btn btn-success" type="button">${drink.strDrink}</button>`);
-                    $("#leftResultCol").append($resultBtn).on("click", `#${drink.idDrink}`, function(event) {
-                        $("#rightResultCol").empty();
+                    $leftResultCol.append($resultBtn).on("click", `#${drink.idDrink}`, function(event) {
+                        $rightResultCol.empty().addClass("bg-light border rounded");
                         let $card = $("<span>");
                         $(`<h2 class="py-1">${drink.strDrink}</h2>`).appendTo($card);
                         $(`<img src="${image}" alt="${drink.strDrink}" width="200px" class="rounded shadow"></img>`).appendTo($card);
@@ -87,21 +116,19 @@ $(document).ready(function() {
                             }
                         }
                         $("html, body").scrollTop(0);
-                        $("#rightResultCol").append($card);
+                        $rightResultCol.append($card);
                     });
                 });
             }
             });
         }
     }
-    $("#submit").on("click", searchAPI);  //triggers search on button click
-    $("#reset").on("click", function(event) {
-        $("#leftResultCol").empty();
-        $("#rightResultCol").empty();
+    $submitBtn.on("click", searchAPI);  //triggers search on button click
+    $resetBtn.on("click", function(event) {
         $searchField.val("");
         initResults();
     });
-    $("#search").on("keydown", function(event) {  //triggers search on `enter`
+    $searchField.on("keydown", function(event) {  //triggers search on `enter`
         if (event.which === 13) {   //ASCII code for 'enter' key
             event.preventDefault();  //prevents 'enter' from clearing the field
             searchAPI();
