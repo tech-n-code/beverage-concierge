@@ -52,12 +52,12 @@ gitHubLogo.style.margin = "0.5rem auto";
 gitHubDiv.appendChild(gitHubLogo);
 document.body.append(gitHubDiv);
 
-gitHubLogo.addEventListener("click", function() {
-    window.open("https://github.com/tech-n-code", "_blank");
-});
-gitHubLogo.addEventListener("mouseover", function () {
-    gitHubLogo.style.cursor = "pointer";
-});
+gitHubLogo.addEventListener("click", () => {
+        window.open("https://github.com/tech-n-code", "_blank");
+    });
+gitHubLogo.addEventListener("mouseover", () => {
+        gitHubLogo.style.cursor = "pointer";
+    });
 
 let linkedInDiv = document.createElement("div");
 let linkedInLogo = document.createElement("img");
@@ -67,12 +67,12 @@ linkedInLogo.style.margin = "0.5rem auto";
 linkedInDiv.appendChild(linkedInLogo);
 document.body.append(linkedInDiv);
 
-linkedInLogo.addEventListener("click", function() {
-    window.open("https://www.linkedin.com/in/will-franceschini/", "_blank");
-});
-linkedInLogo.addEventListener("mouseover", function () {
-    linkedInLogo.style.cursor = "pointer";
-});
+linkedInLogo.addEventListener("click", () => {
+        window.open("https://www.linkedin.com/in/will-franceschini/", "_blank");
+    });
+linkedInLogo.addEventListener("mouseover", () => {
+        linkedInLogo.style.cursor = "pointer";
+    });
 
 initResults();
 
@@ -83,57 +83,57 @@ function initResults() {
     $("#noSearchStr").remove();
 }
 
-$(document).ready(function() {
+$(document).ready(() => {
     function searchAPI() {
         let searchStr = $searchField.val();
         if (searchStr.length === 0) {
             initResults();
             $results.append("<div id='noSearchStr' class='bg-light border rounded'>Ops! Forgot to enter your search</div>");
         } else {
-            $.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + searchStr, function (data) {
-            console.log(data);
-            if (!data.drinks) {
-                initResults();
-                $results.append("<div id='noResultsMsg' class='bg-light border rounded'>No results found.</div>");
-            } else {
-                initResults();
-                $rightResultCol.addClass("bg-light border rounded");
-                $.each(data.drinks,  function (i, drink) {
-                    let image = drink.strDrinkThumb;  //it may help pre-load thumbnails
-                    let $resultBtn = $(`<button id="${drink.idDrink}" class="btn btn-success" type="button">${drink.strDrink}</button>`);
-                    $leftResultCol.append($resultBtn).on("click", `#${drink.idDrink}`, function(event) {
-                        $rightResultCol.empty();
-                        let $card = $("<span>");
-                        $(`<h2 class="py-1">${drink.strDrink}</h2>`).appendTo($card);
-                        $(`<img src="${image}" alt="${drink.strDrink}" width="200px" class="rounded shadow"></img>`).appendTo($card);
-                        $(`<h4 class="py-1">Mixing Instructions:</h4>`).appendTo($card);
-                        $(`<p class="px-3">${drink.strInstructions}</p>`).appendTo($card);
-                        $("<h4>Ingredients:</h4>").appendTo($card);
-                        for (let i = 1; i <= 15; i++) {
-                            let ingredient = drink["strIngredient" + i];
-                            let measure = drink["strMeasure" + 1];
-                            if (ingredient && measure) {
-                                $(`<p>${measure} of ${ingredient}</p>`).appendTo($card);
-                            }
-                        }
-                        $("html, body").scrollTop(0);
-                        $rightResultCol.append($card);
-                    });
+            $.get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + searchStr, (data) => {
+                    console.log(data);
+                    if (!data.drinks) {
+                        initResults();
+                        $results.append("<div id='noResultsMsg' class='bg-light border rounded'>No results found.</div>");
+                    } else {
+                        initResults();
+                        $rightResultCol.addClass("bg-light border rounded");
+                        $.each(data.drinks, (i, drink) => {
+                            let image = drink.strDrinkThumb; //it may help pre-load thumbnails
+                            let $resultBtn = $(`<button id="${drink.idDrink}" class="btn btn-success" type="button">${drink.strDrink}</button>`);
+                            $leftResultCol.append($resultBtn).on("click", `#${drink.idDrink}`, (event) => {
+                                $rightResultCol.empty();
+                                let $card = $("<span>");
+                                $(`<h2 class="py-1">${drink.strDrink}</h2>`).appendTo($card);
+                                $(`<img src="${image}" alt="${drink.strDrink}" width="200px" class="rounded shadow"></img>`).appendTo($card);
+                                $(`<h4 class="py-1">Mixing Instructions:</h4>`).appendTo($card);
+                                $(`<p class="px-3">${drink.strInstructions}</p>`).appendTo($card);
+                                $("<h4>Ingredients:</h4>").appendTo($card);
+                                for (let i = 1; i <= 15; i++) {
+                                    let ingredient = drink["strIngredient" + i];
+                                    let measure = drink["strMeasure" + 1];
+                                    if (ingredient && measure) {
+                                        $(`<p>${measure} of ${ingredient}</p>`).appendTo($card);
+                                    }
+                                }
+                                $("html, body").scrollTop(0);
+                                $rightResultCol.append($card);
+                            });
+                        });
+                        $rightResultCol.append("<p class='text-secondary p-3'>Choose beverage to display instructions.</p>");
+                    }
                 });
-                $rightResultCol.append("<p class='text-secondary p-3'>Choose beverage to display instructions.</p>");
-            }
-            });
         }
     }
-    $submitBtn.on("click", searchAPI);  //triggers search on button click
-    $resetBtn.on("click", function(event) {
-        $searchField.val("");
-        initResults();
-    });
-    $searchField.on("keydown", function(event) {  //triggers search on `enter`
-        if (event.which === 13) {   //ASCII code for 'enter' key
-            event.preventDefault();  //prevents 'enter' from clearing the field
-            searchAPI();
-      }
-    });
+    $submitBtn.on("click", searchAPI); //triggers search on button click
+    $resetBtn.on("click", (event) => {
+            $searchField.val("");
+            initResults();
+        });
+    $searchField.on("keydown", (event) => {
+            if (event.which === 13) { //ASCII code for 'enter' key
+                event.preventDefault(); //prevents 'enter' from clearing the field
+                searchAPI();
+            }
+        });
 });
